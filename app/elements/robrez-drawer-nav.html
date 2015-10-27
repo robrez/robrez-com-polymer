@@ -1,0 +1,44 @@
+<dom-module id="robrez-drawer-nav">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .item {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        padding: 8px 16px;
+      }
+
+      .iron-selected {
+        background: #eee;
+      }
+    </style>
+
+    <div class="section">
+      <iron-selector attr-for-selected="data-module" selected="{{selected}}">
+        <template is="dom-repeat" items="[[modules]]">
+          <div class="item" data-module$="[[item.name]]">
+            <div>[[item.description]]</div>
+          </div>
+        </template>
+      </iron-selector>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'robrez-drawer-nav',
+
+      properties: {
+        modules: {
+          type: Array
+        },
+        selected: {
+          type: String,
+          notify: true
+        }
+      }
+    });
+  </script>
+</dom-module>

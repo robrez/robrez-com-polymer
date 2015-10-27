@@ -1,0 +1,289 @@
+<link rel="import" href="../../../bower_components/paper-slider/paper-slider.html">
+
+<dom-module id="robrez-resume">
+  <template>
+
+    <style include="shared-styles"></style>
+    <style>
+      .toolbar-text {
+        @apply(--paper-font-display1);
+      }
+
+      .toolbar iron-icon {
+        color: rgba(0, 0, 0, .87);
+      }
+
+      iron-icon {
+        width: 24px;
+        height: 24px;
+        padding: 2px 0 2px 0;
+      }
+
+      .card-title iron-icon {
+        color: var(--dark-primary-color);
+      }
+
+      .label {
+        padding-left: 16px;
+      }
+
+      .content {
+        margin: 0;
+        padding: 0;
+      }
+
+      .card {
+        background-color: #fff;
+        display: block;
+        padding: 24px;
+        margin: 16px;
+        border-radius: 2px;
+        @apply(--shadow-elevation-2dp);
+      }
+
+      .avatar {
+        height: 48px;
+        width: 48px;
+        margin-right: 8px;
+        border-radius: 24px;
+        box-sizing: border-box;
+        border: 2px solid #DDD;
+        border-color: var(--default-primary-color);
+      }
+
+      .section {
+        padding: 16px 0 16px 0;
+      }
+
+      .section:last-child {
+        padding: 16px 0 0 0;
+      }
+
+      .p {
+        margin 0;
+        padding: 4px 0 0 0;
+      }
+
+      .slider-container {
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+      }
+
+      paper-slider {
+        @apply(--layout-flex);
+        --paper-slider-knob-color: var(--paper-blue-500);
+        --paper-slider-active-color: var(--paper-blue-500);
+        pointer-events: none;
+      }
+
+      .divider {
+        height: 1px;
+        background-color: var(--divider-color);
+      }
+
+      @media (min-width: 960px) {
+        .content {
+          @apply(--layout-horizontal);
+        }
+        .left {
+          width: 60%%;
+        }
+        .left .card {
+          margin: 16px 8px 16px 16px;
+        }
+        .right {
+          width: 40%;
+        }
+        .right .card {
+          margin: 16px 16px 16px 8px;
+        }
+      }
+    </style>
+
+    <div>
+
+      <div class="toolbar card">
+        <div class="layout horizontal justified wrap">
+
+          <div class="layout horizontal">
+            <div>
+              <img class="avatar" src="images/rob.png"></img>
+            </div>
+            <div>
+              <div class="toolbar-text">Rob Resendez</div>
+              <div class="body2 secondary">Software Engineer</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="layout horizontal center">
+              <iron-icon icon="robrez:mail"></iron-icon>
+              <span class="label">resendez.java@gmail.com</span>
+            </div>
+            <div class="layout horizontal center">
+              <iron-icon icon="robrez:perm-phone-msg"></iron-icon>
+              <span class="label">xxx-xxx-xxxx</span>
+            </div>
+            <div class="layout horizontal center">
+              <iron-icon src="images/github-d.png"></iron-icon>
+              <a href="https://github.com/robrez"><span class="label">github.com/robrez</span></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="content">
+
+        <div class="col left">
+
+          <div class="card">
+            <div class="layout horizontal card-title">
+              <iron-icon icon="robrez:account-balance"></iron-icon>
+              <div class="title label">Work Experience</div>
+            </div>
+            <div class="section">
+              <div class="layout horizontal flex center">
+                <div class="subhead">Evident</div>
+                <span class="flex"></span>
+                <span class="caption secondary">Jan 2007 - Current</span>
+              </div>
+              <div class="body2">Senior Engineer, R&amp;D</div>
+              <div class="body1 p">
+                Design, implement, enhance and maintain core libraries used in our development process.
+                Also responsible for developing several interesting and challenging
+                applications from the ground up. A typical day involves data-access
+                and persistence, services, views and everything in between or on
+                the edges.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="layout horizontal card-title">
+              <iron-icon icon="robrez:school"></iron-icon>
+              <div class="title label">Education and Conferences</div>
+            </div>
+            <div class="section">
+              <div class="layout horizontal flex center">
+                <div class="subhead">O'Reilly OSCON</div>
+                <span class="flex"></span>
+                <span class="caption secondary">2013, 2014, 2015</span>
+              </div>
+              <div class="body2">Portland, OR</div>
+              <div class="body1 p">
+                A fun and educational conference covering a wide array of wonderful topics
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section">
+              <div class="layout horizontal flex center">
+                <div class="subhead">AnDevCon</div>
+                <span class="flex"></span>
+                <span class="caption secondary">2012</span>
+              </div>
+              <div class="body2">San Fransisco, CA</div>
+              <div class="body1 p">
+                Technical conference for enthusiasts, developers and engineers who utilize the Android
+                platform
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section">
+              <div class="layout horizontal flex center">
+                <div class="subhead">University of West Florida</div>
+                <span class="flex"></span>
+                <span class="caption secondary">December 2006</span>
+              </div>
+              <div class="body2">Computer Science, B.S.</div>
+              <div class="body1 p">
+                This curriculum emphasizes a strong theoretical foundation of algorithms, data structures,
+                software engineering, computer architecture, networks, discrete math,
+                and the concepts of various programming languages.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="col right">
+
+          <div class="card">
+            <div class="layout horizontal card-title">
+              <iron-icon icon="robrez:assessment"></iron-icon>
+              <div class="title label">Skills</div>
+            </div>
+            <div class="section">
+              <template is="dom-repeat" items="[[skills]]">
+                <div class="body2">[[item.skill]]</div>
+                <div class="slider-container">
+                  <paper-slider value="[[item.score]]"></paper-slider>
+                </div>
+              </template>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'robrez-resume',
+
+      properties: {
+        //TODO create a model for the various content modules
+        skills: {
+          type: Array,
+          value: function() {
+            return [{
+              "skill": "Linux",
+              "score": 90
+            }, {
+              "skill": "Android",
+              "score": 75
+            }, {
+              "skill": "Java",
+              "score": 95
+            }, {
+              "skill": "JavaScript",
+              "score": 85
+            }, {
+              "skill": "Data",
+              "score": 98
+            }, {
+              "skill": "SQL",
+              "score": 95
+            }, {
+              "skill": "HTML, CSS",
+              "score": 85
+            }, {
+              "skill": "XSL(T)",
+              "score": 88
+            }, {
+              "skill": "XSL-FO",
+              "score": 90
+            }, {
+              "skill": "Git",
+              "score": 65
+            }, {
+              "skill": "SVN",
+              "score": 85
+            }];
+          }
+        }
+      }
+    });
+  </script>
+
+</dom-module>

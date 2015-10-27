@@ -1,0 +1,197 @@
+<dom-module id="robrez-blog-view">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+      }
+
+      .card {
+        box-sizing: border-box;
+        @apply(--shadow-elevation-2dp);
+        background-color: #FFF;
+        border-radius: 2dp;
+        margin: 16px;
+        padding: 16px;
+      }
+
+      .card.header {
+        margin-bottom: 32px;
+      }
+
+      .display1 {
+        @apply(--paper-font-display1);
+      }
+
+      h2 {
+        color: var(--secondary-text-color);
+        padding: 0 0 0 8px;
+        border-left: solid 4px blue;
+        border-left-color: var(--accent-color);
+      }
+
+      .strikethrough {
+        text-decoration: line-through;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+
+      .bottom-nav {
+        margin: 16px;
+        padding: 16px 0;
+      }
+
+      paper-button {
+        background-color: var(--accent-color);
+        color: #FFF;
+      }
+    </style>
+
+    <div class="header card" hidden$="[[_error]]">
+      <div class="display1">[[blogEntry.title]]</div>
+      <div class="body2 secondary">[[blogEntry.summary]]</div>
+    </div>
+    <div class="card" id="page" hidden$="[[_error]]">
+    </div>
+    <div class="card error" hidden$="[[!_error]]">
+      <div class="display1">OOPS</div>
+      <div>Something went wrong!</div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="layout horizontal center justified wrap">
+        <div>
+          <paper-button raised on-tap="_showPrev" hidden$="[[!_hasPrevious(blogEntry)]]">previous</paper-button>
+        </div>
+        <div>
+          <paper-button raised on-tap="_showNext" hidden$="[[!_hasNext(blogEntry)]]">next</paper-button>
+        </div>
+      </div>
+    </div>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'robrez-blog-view',
+
+      properties: {
+        data: {
+          type: Object
+        },
+        blogEntry: {
+          type: Object
+        },
+        _error: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      observers: [
+        '_onBlogModelsChanged(data, blogEntry)'
+      ],
+
+      _onBlogModelsChanged: function(data, blogEntry) {
+        var hasNext = false;
+        var hasPrevious = false;
+        if (data && blogEntry) {
+          if (blogEntry.basePath && blogEntry.file) {
+            this._error = false;
+            this._loadItem(blogEntry.basePath + blogEntry.file);
+          } else {
+            var e = this._findBlogEntryById(blogEntry.id);
+            if (e) {
+              this.set('blogEntry', e);
+            } else {
+              this._error = true;
+              console.log("ERROR FINDING BLOG");
+            }
+          }
+        } else {
+          //console.log("wait for entries to load");
+        }
+      },
+
+      _loadItem: function(file) {
+        var page = this.$.page;
+        page.classList.add("loading");
+        this._loadHref(file).then(function(page) {
+          this._renderPage(page);
+        }.bind(this));
+      },
+
+      _loadHref: function(page) {
+        return new Promise(function(resolve, reject) {
+          Polymer.Base.importHref(
+            page,
+            function(e) {
+              resolve(e.target.import)
+            },
+            reject
+          );
+        });
+      },
+
+      _renderPage: function(doc) {
+        var page = this.$.page;
+        this._removeChildren(page);
+        Polymer.dom(page).appendChild(doc.body.cloneNode(true));
+        page.classList.remove("loading");
+      },
+
+      _removeChildren: function(element) {
+        Polymer.dom(element).innerHTML = "";
+      },
+
+      _findBlogEntryById: function(id) {
+        var data = this.data;
+        if (data && data.entries.length) {
+          for (var i = 0; i < data.entries.length; i++) {
+            if (data.entries[i].id == id) {
+              return data.entries[i];
+            }
+          }
+        }
+        return null;
+      },
+
+      _hasNext: function(blogEntry) {
+        return blogEntry != null && blogEntry.hasOwnProperty("nextId");
+      },
+
+      _hasPrevious: function(blogEntry) {
+        return blogEntry != null && blogEntry.hasOwnProperty("previousId");
+      },
+
+      _showNext: function(e, detail) {
+        var blogEntry = this.blogEntry;
+        if (this._hasNext(blogEntry)) {
+          this._requestBlog(this.data.entries[blogEntry.nextId]);
+        }
+      },
+
+      _showPrev: function(e, detail) {
+        var blogEntry = this.blogEntry;
+        if (this._hasPrevious(blogEntry)) {
+          this._requestBlog(this.data.entries[blogEntry.previousId]);
+        }
+      },
+
+      _requestBlog: function(item) {
+        if (item) {
+          //fire to parent - this allows the page route to be updated
+          var f = function() {
+            this.fire('request-blog', item);
+          }.bind(this);
+          this.async(f, 1);
+        }
+      }
+
+
+
+    });
+  </script>
+</dom-module>

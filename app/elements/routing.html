@@ -1,0 +1,33 @@
+<script src="../../bower_components/page/page.js"></script>
+<script>
+  window.addEventListener('WebComponentsReady', function() {
+
+    function scrollToTop(ctx, next) {
+      //app.scrollPageToTop();
+      next();
+    }
+
+    // Routes
+    page('/', scrollToTop, function() {
+      //app.route = 'blog';
+    });
+
+    page('/blog', scrollToTop, function() {
+      app.route = {route: 'blog', params: null };
+    });
+
+    page('/blogview/:id', scrollToTop, function(data) {
+      app.route = {route: 'blogview', params: data.params };
+    });
+
+    page('/resume', scrollToTop, function() {
+      app.route = {route: 'resume', params: null };
+    });
+
+    // add #! before urls
+    page({
+      hashbang: true
+    });
+
+  });
+</script>

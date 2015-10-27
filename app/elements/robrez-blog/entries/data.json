@@ -1,0 +1,19 @@
+{
+  "basePath": "elements/robrez-blog/entries/",
+  "entries": [
+    {
+      "title": "Hello World!",
+      "timestamp": "2015-10-19 21:00:00",
+      "tags": [ "Hello", "world" ],
+      "file": "blog0.html",
+      "summary": "Adventures in software engineering"
+    },
+    {
+      "title": "Creative Process?",
+      "timestamp": "2015-10-20 21:00:00",
+      "tags": [ "creative", "lazy" ],
+      "file": "blog1.html",
+      "summary": "What typically happens when I try to get creative"
+    }
+  ]
+}

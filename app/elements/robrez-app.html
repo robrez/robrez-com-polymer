@@ -1,0 +1,348 @@
+<dom-module id="robrez-app">
+  <style include="shared-styles"></style>
+  <style is="custom-style">
+    :host {
+      display: block;
+      color: rgba(0, 0, 0, .87);
+      @apply(--paper-font-body1);
+      background-color: #eee;
+    }
+
+    #mainPanel {
+      position: relative;
+    }
+
+    .masthead {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--default-primary-color);
+      height: 216px;
+      z-index: -1;
+    }
+
+    paper-tabs {
+      @apply(--paper-font-subhead);
+    }
+
+    .toolbar {
+      color: var(--text-primary-color);
+    }
+
+    .subtoolbar {
+      padding: 64px 32px 32px 32px;
+    }
+
+    .content {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    iron-pages {
+      min-height: 80vh;
+    }
+
+    .footer {
+      margin-top: 32px;
+      background-color: var(--default-primary-color);
+      border-top: solid 8px #424242;
+      padding: 16px;
+    }
+
+    .logo-container {
+      touch-events: none;
+      position: relative;
+      margin: 32px 0 0 64px;
+      overflow: hidden;
+    }
+
+    .logo-inner {
+      @apply(--layout-horizontal);
+    }
+
+    .logo-inner2 {
+      @apply(--layout-vertical);
+      @apply(--layout-end);
+    }
+
+    .logo {
+      @apply(--paper-font-display4);
+      letter-spacing: -.1em !important;
+      font-size: 84px !important;
+      line-height: 84px !important;
+      font-weight: 400 !important;
+      color: rgba(255, 255, 255, .90);
+      /*text-shadow: 0 -2px 2px rgba(0,0,0,.60);*/
+      text-shadow: 0 2px 2px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo2 {
+      margin-top: -16px;
+      @apply(--paper-font-title);
+      color: rgba(0, 0, 0, .54);
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .footer .a {
+      color: #fff;
+      padding: 4px 2px;
+      margin: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .a iron-icon {
+      margin-right: 8px;
+      color: #fff;
+    }
+
+    .footer .disclaimer {
+      margin: 32px 0;
+      font-style: italic;
+    }
+
+  </style>
+  <template>
+
+    <robrez-blog-api url="robrez-blog/entries/data.json" data="{{blogData}}">
+    </robrez-blog-api>
+
+    <iron-media-query query="(min-width: 720px)" query-matches="{{wide}}">
+    </iron-media-query>
+
+    <app-drawer-layout disable-drawer-activate$="[[wide]]" responsive-width="99999px">
+
+      <div id="drawerPanel" drawer>
+        <app-toolbar>Navigation</app-toolbar>
+
+        <robrez-drawer-nav selected="{{_module}}" modules="[[_modules]]">
+        </robrez-drawer-nav>
+
+      </div>
+
+      <div id="mainPanel" main>
+
+        <div class="masthead">
+
+          <div class="logo-container">
+            <div class="logo-inner">
+              <div class="logo-inner2">
+                <div class="logo">robrez</div>
+                <div class="logo2">.com</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="toolbar" id="navbar">
+          <app-toolbar class="layout horizontal justified">
+            <paper-icon-button hidden$="[[wide]]" icon="robrez:menu" drawer-toggle></paper-icon-button>
+            <span class="flex"></span>
+            <paper-tabs on-tap="_onNavTap" hidden$="[[!wide]]" attr-for-selected="data-module" selected="{{_module}}">
+              <template id="tabRepeater" is="dom-repeat" items="[[_modules]]">
+                <paper-tab data-module$="[[item.name]]">[[_toUpper(item.description)]]</paper-tab>
+              </template>
+            </paper-tabs>
+          </app-toolbar>
+        </div>
+
+        <div class="content">
+          <div class="subtoolbar">
+          </div>
+        </div>
+
+        <div class="content" on-request-blog="_onRequestBlog">
+          <iron-pages attr-for-selected="data-section" selected="[[_section]]">
+            <robrez-blog data-section="blog" id="blogList" data="[[blogData]]"></robrez-blog>
+            <robrez-blog-view data-section="blogview" id="blogView" data="[[blogData]]"></robrez-blog-view>
+            <robrez-resume data-section="resume"></robrez-resume>
+          </iron-pages>
+        </div>
+
+        <div class="footer">
+          <div class="content">
+          <div class="">
+            <div class="layout vertical end">
+              <div class="layout horizontal center a" on-tap="_scrollToTop">
+                <iron-icon icon="robrez:expand-less"></iron-icon>
+                <span>Back to top</span>
+                <paper-ripple></paper-ripple>
+              </div>
+            </div>
+          </div>
+          <div class="layout horizontal justified wrap">
+            <div class="footer-item">
+              <a href="https://www.twitter.com/robrezx">
+                <div class="layout horizontal center a">
+                  <iron-icon icon="robrez:twitter"></iron-icon>
+                  <span>robrezx</span>
+                  <paper-ripple></paper-ripple>
+                </div>
+              </a>
+              <a href="https://plus.google.com/u/0/+RobResendez">
+                <div class="layout horizontal center a">
+                  <iron-icon icon="robrez:gplus"></iron-icon>
+                  <span>+RobResendez</span>
+                  <paper-ripple></paper-ripple>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="layout vertical center disclaimer">
+            <div class="layout horizontal center wrap">
+              <span>Made with </span>
+              <iron-icon icon="robrez:favorite" class="accent"></iron-icon>
+              <span> by Rob</span>
+            </div>
+            <div class="caption">Unless otherwise noted, this page is licensed under the Creative Commons Attribution 3.0 License</div>
+          </div>
+          </div>
+        </div>
+
+      </div>
+
+    </app-drawer-layout>
+  </template>
+  <script>
+    Polymer({
+      is: 'robrez-app',
+
+      properties: {
+        _modules: {
+          type: Array,
+          value: function() {
+            return [{
+              name: "blog",
+              description: "Blog"
+            }, {
+              name: "resume",
+              description: "Resume"
+            }];
+          },
+          notify: true
+        },
+
+        _module: {
+          type: String,
+          value: "blog"
+        },
+
+        _moduleTitle: {
+          type: String,
+          readOnly: true
+        },
+
+        _section: {
+          type: String,
+          notify: true,
+        },
+
+        route: {
+          type: Object,
+          value: function() {
+            return {
+              route: "blog"
+            };
+          }
+        }
+
+      },
+
+      observers: [
+        /** all of these observers are for updating routes make this suck less */
+        '_onModuleChange(_module, _modules)',
+        '_onRouteChanged(route)',
+        '_onSectionChanged(_section)'
+      ],
+
+      _onRouteChanged: function(route) {
+        var section = this._section;
+        if (route.route === 'blogview') {
+          this.$.blogView.blogEntry = {
+            id: route.params.id
+          };
+        }
+        this.set("_section", route.route);
+      },
+
+      _onModuleChange: function(module, modules) {
+        if (module && modules && modules.length) {
+          for (var i = 0; i < modules.length; i++) {
+            if (modules[i].name === module) {
+              this._set_moduleTitle(modules[i].description);
+              break;
+            }
+          }
+          this.set("_section", module);
+        }
+      },
+
+      _onSectionChanged: function(section) {
+        if (section === 'blogview') {
+          this.set("_module", "blog");
+        } else {
+          this.set("_module", section);
+        }
+        this._updateRoute(section);
+      },
+
+      _updateRoute: function(section, force) {
+        var route = (this.route && this.route.route) ? this.route.route :
+          section;
+        if (section != route || force) {
+          page.show(this._buildRoute(section), null);
+          this._scrollToTop();
+        }
+      },
+
+      _buildRoute: function(section) {
+        var path = "/" + section;
+        if (section === 'blogview') {
+          path += "/" + this.$.blogView.blogEntry.id;
+        }
+        return path;
+      },
+
+      _onRequestBlog: function(e, detail) {
+        this.$.blogView.blogEntry = detail;
+        if (this._section === 'blogview') {
+          this._updateRoute(this._section, true);
+        } else {
+          this.set('_section', 'blogview');
+        }
+      },
+
+      _isBlog: function(module) {
+        return modue === "blog";
+      },
+
+      _isResume: function(module) {
+        return module === "resume";
+      },
+
+      _toUpper: function(str) {
+        return str.toUpperCase();
+      },
+
+      _scrollToTop: function() {
+        document.scrollingElement.scrollTop = 0;
+      },
+
+      _onNavTap: function(e, detail, sender) {
+        var model = this.$.tabRepeater.modelForElement(e.target);
+        if(model && model.item) {
+          if(model.item.name === "blog") {
+            this.set("_section", model.item.name);
+          }
+        }
+      }
+
+    });
+  </script>
+</dom-module>

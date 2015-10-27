@@ -1,0 +1,147 @@
+<link rel="import" href="api/robrez-blog-api.html">
+
+<dom-module id="robrez-blog">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+      }
+
+      .item {
+        box-sizing: border-box;
+        padding: 8px;
+        margin: 16px;
+        border-radius: 2px;
+        background-color: #fff;
+        @apply(--shadow-elevation-2dp);
+        cursor: pointer;
+      }
+
+      .item.header {
+        margin-bottom: 32px;
+      }
+
+      .item:not(.header):hover {
+        background-color: #efefef;
+      }
+
+      .date-container {
+        padding-right: 8px;
+        border-right: solid 1px #b6b6b6;
+        border-right-color: var(--accent-color);
+        margin-right: 8px;
+        @apply(--layout-vertical);
+        @apply(--layout-end);
+      }
+
+      .tag-container {
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+      }
+
+      .tag {
+        padding: 2px;
+        color: var(--secondary-text-color);
+        border-radius: 2px;
+        margin: 1px;
+        @apply(--paper-font-caption);
+      }
+
+      @media (min-width: 720px) {
+        .list {
+          @apply(--layout-horizontal);
+          @apply(--layout-wrap);
+          padding-bottom: 16px;
+        }
+        .item-container {
+          width: 50%;
+        }
+        .item.header {
+          margin: 16px;
+        }
+        .item {
+          margin: 16px 16px 0 8px;
+        }
+        .item-container:nth-child(odd)>.item {
+          margin: 16px 8px 0 16px;
+        }
+      }
+    </style>
+
+    <div class="item header">
+      <div class="display1">Blog</div>
+      <div class="body2 secondary">[[_computeStats(data.entries)]]</div>
+    </div>
+
+    <div class="list" on-tap="_onTapItem">
+      <template id="repeater" is="dom-repeat" items="[[data.entries]]">
+        <div class="item-container">
+          <div class="item">
+            <div class="layout horizontal">
+              <div class="date-container">
+                <div class="title">[[_formatDay(item.timestamp)]]</div>
+                <div class="body1">[[_formatYear(item.timestamp)]]</div>
+              </div>
+              <div class="title-container subhead">
+                <div>[[item.title]]</div>
+                <div class="tag-container">
+                  <template is="dom-repeat" items="[[item.tags]]" as="tag">
+                    <div class="tag">[[_formatTag(tag)]]</div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+    (function() {
+      "use strict";
+
+      Polymer({
+        is: "robrez-blog",
+
+        properties: {
+          data: {
+            type: Object
+          }
+        },
+
+        _onTapItem: function(e, detail) {
+          var model = this.$.repeater.modelForElement(e.target);
+          if (model && model.item) {
+            this.fire('request-blog', model.item);
+          }
+        },
+
+        _computeStats: function(entries) {
+          if (entries) {
+            return entries.length + " delightful entries for your reading pleasure";
+          } else {
+            return "";
+          }
+        },
+
+        _formatDay: function(ts) {
+          return (ts.getMonth() + 1) + "/" + ts.getDate();
+        },
+
+        _formatYear: function(ts) {
+          return ts.getFullYear() + "";
+        },
+
+        _formatTag: function(tag) {
+          return "#" + tag;
+        }
+
+      });
+
+    })();
+  </script>
+</dom-module>
