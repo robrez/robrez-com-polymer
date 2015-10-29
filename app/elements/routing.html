@@ -24,6 +24,10 @@
       app.route = {route: 'resume', params: null };
     });
 
+    page('/projects', scrollToTop, function() {
+      app.route = {route: 'projects', params: null };
+    });
+
     // add #! before urls
     page({
       hashbang: true

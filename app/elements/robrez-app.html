@@ -23,7 +23,7 @@
     }
 
     paper-tabs {
-      @apply(--paper-font-subhead);
+      /*@apply(--paper-font-subhead);*/
     }
 
     .toolbar {
@@ -105,7 +105,6 @@
       margin: 32px 0;
       font-style: italic;
     }
-
   </style>
   <template>
 
@@ -144,7 +143,8 @@
           <app-toolbar class="layout horizontal justified">
             <paper-icon-button hidden$="[[wide]]" icon="robrez:menu" drawer-toggle></paper-icon-button>
             <span class="flex"></span>
-            <paper-tabs on-tap="_onNavTap" hidden$="[[!wide]]" attr-for-selected="data-module" selected="{{_module}}">
+            <paper-tabs on-tap="_onNavTap" hidden$="[[!wide]]" attr-for-selected="data-module"
+            selected="{{_module}}">
               <template id="tabRepeater" is="dom-repeat" items="[[_modules]]">
                 <paper-tab data-module$="[[item.name]]">[[_toUpper(item.description)]]</paper-tab>
               </template>
@@ -162,46 +162,47 @@
             <robrez-blog data-section="blog" id="blogList" data="[[blogData]]"></robrez-blog>
             <robrez-blog-view data-section="blogview" id="blogView" data="[[blogData]]"></robrez-blog-view>
             <robrez-resume data-section="resume"></robrez-resume>
+            <robrez-project-list data-section="projects"></robrez-project-list>
           </iron-pages>
         </div>
 
         <div class="footer">
           <div class="content">
-          <div class="">
-            <div class="layout vertical end">
-              <div class="layout horizontal center a" on-tap="_scrollToTop">
-                <iron-icon icon="robrez:expand-less"></iron-icon>
-                <span>Back to top</span>
-                <paper-ripple></paper-ripple>
+            <div class="">
+              <div class="layout vertical end">
+                <div class="layout horizontal center a" on-tap="_scrollToTop">
+                  <iron-icon icon="robrez:expand-less"></iron-icon>
+                  <span>Back to top</span>
+                  <paper-ripple></paper-ripple>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="layout horizontal justified wrap">
-            <div class="footer-item">
-              <a href="https://www.twitter.com/robrezx">
-                <div class="layout horizontal center a">
-                  <iron-icon icon="robrez:twitter"></iron-icon>
-                  <span>robrezx</span>
-                  <paper-ripple></paper-ripple>
-                </div>
-              </a>
-              <a href="https://plus.google.com/u/0/+RobResendez">
-                <div class="layout horizontal center a">
-                  <iron-icon icon="robrez:gplus"></iron-icon>
-                  <span>+RobResendez</span>
-                  <paper-ripple></paper-ripple>
-                </div>
-              </a>
+            <div class="layout horizontal justified wrap">
+              <div class="footer-item">
+                <a href="https://www.twitter.com/robrezx">
+                  <div class="layout horizontal center a">
+                    <iron-icon icon="robrez:twitter"></iron-icon>
+                    <span>@robrezx</span>
+                    <paper-ripple></paper-ripple>
+                  </div>
+                </a>
+                <a href="https://plus.google.com/u/0/+RobResendez">
+                  <div class="layout horizontal center a">
+                    <iron-icon icon="robrez:gplus"></iron-icon>
+                    <span>+RobResendez</span>
+                    <paper-ripple></paper-ripple>
+                  </div>
+                </a>
+              </div>
             </div>
-          </div>
-          <div class="layout vertical center disclaimer">
-            <div class="layout horizontal center wrap">
-              <span>Made with </span>
-              <iron-icon icon="robrez:favorite" class="accent"></iron-icon>
-              <span> by Rob</span>
+            <div class="layout vertical center disclaimer">
+              <div class="layout horizontal center wrap">
+                <span>Made with </span>
+                <iron-icon icon="robrez:favorite" class="accent"></iron-icon>
+                <span> by Rob</span>
+              </div>
+              <div>Unless otherwise noted, this page is licensed under the The MIT License</div>
             </div>
-            <div class="caption">Unless otherwise noted, this page is licensed under the Creative Commons Attribution 3.0 License</div>
-          </div>
           </div>
         </div>
 
@@ -218,6 +219,9 @@
           type: Array,
           value: function() {
             return [{
+              name: "projects",
+              description: "Projects"
+            }, {
               name: "blog",
               description: "Blog"
             }, {
@@ -230,7 +234,7 @@
 
         _module: {
           type: String,
-          value: "blog"
+          value: "projects"
         },
 
         _moduleTitle: {
@@ -247,7 +251,7 @@
           type: Object,
           value: function() {
             return {
-              route: "blog"
+              route: "projects"
             };
           }
         }
@@ -280,6 +284,7 @@
             }
           }
           this.set("_section", module);
+          document.title = this._moduleTitle;
         }
       },
 
@@ -336,8 +341,8 @@
 
       _onNavTap: function(e, detail, sender) {
         var model = this.$.tabRepeater.modelForElement(e.target);
-        if(model && model.item) {
-          if(model.item.name === "blog") {
+        if (model && model.item) {
+          if (model.item.name === "blog") {
             this.set("_section", model.item.name);
           }
         }

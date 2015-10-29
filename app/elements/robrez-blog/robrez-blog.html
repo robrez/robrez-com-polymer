@@ -11,12 +11,16 @@
 
       .item {
         box-sizing: border-box;
-        padding: 8px;
+        padding: 16px;
         margin: 16px;
         border-radius: 2px;
         background-color: #fff;
         @apply(--shadow-elevation-2dp);
         cursor: pointer;
+      }
+
+      .item-container>.item {
+        padding: 8px 16px;
       }
 
       .item.header {
@@ -28,10 +32,10 @@
       }
 
       .date-container {
-        padding-right: 8px;
+        padding-right: 16px;
         border-right: solid 1px #b6b6b6;
         border-right-color: var(--accent-color);
-        margin-right: 8px;
+        margin-right: 16px;
         @apply(--layout-vertical);
         @apply(--layout-end);
       }
