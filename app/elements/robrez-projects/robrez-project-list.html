@@ -1,3 +1,6 @@
+<link
+  rel="import"
+  href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="robrez-project-card.html">
 <dom-module id="robrez-project-list">
   <template>
@@ -43,6 +46,7 @@
           margin: 16px 8px 0 16px;
         }
       }
+
     </style>
     <div class="item card header">
       <div class="display1">Projects</div>
@@ -51,8 +55,7 @@
     <div class="list">
       <template is="dom-repeat" items="[[projects]]">
         <div class="item-container">
-          <robrez-project-card project="[[item]]" class="item">
-          </robrez-project-card>
+          <robrez-project-card project="[[item]]" class="item"></robrez-project-card>
         </div>
       </template>
     </div>
@@ -67,23 +70,25 @@
           projects: {
             type: Array,
             value: function() {
-              return [{
-                ghOwner: "robrez",
-                ghRepo: "poly-theme-builder",
-                description: "Build themes for your polymer app!"
-              }, {
-                ghOwner: "robrez",
-                ghRepo: "robrez-com",
-                description: "My personal website / blog"
-              }, {
-                ghOwner: "robrez",
-                ghRepo: "rdb",
-                description: "Java Object-Oriented SQL and CRUD"
-              }, {
-                ghOwner: "robrez",
-                ghRepo: "oscon-schedule",
-                description: "Oscon 2015 schedule using polymer"
-              }];
+              return [
+                {
+                  ghOwner: "robrez",
+                  ghRepo: "poly-theme-builder",
+                  description: "Build themes for your polymer app!"
+                }, {
+                  ghOwner: "robrez",
+                  ghRepo: "robrez-com",
+                  description: "My personal website / blog"
+                }, {
+                  ghOwner: "robrez",
+                  ghRepo: "rdb",
+                  description: "Java Object-Oriented SQL and CRUD"
+                }, {
+                  ghOwner: "robrez",
+                  ghRepo: "oscon-schedule",
+                  description: "Oscon 2015 schedule using polymer"
+                }
+              ];
             }
           }
         }

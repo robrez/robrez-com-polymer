@@ -1,3 +1,4 @@
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="api/robrez-blog-api.html">
 
 <dom-module id="robrez-blog">
@@ -38,6 +39,10 @@
         margin-right: 16px;
         @apply(--layout-vertical);
         @apply(--layout-end);
+      }
+
+      .layout.horizontal {
+        @apply(--layout-horizontal);
       }
 
       .tag-container {

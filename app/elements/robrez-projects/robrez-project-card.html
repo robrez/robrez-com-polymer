@@ -1,3 +1,9 @@
+<link
+  rel="import"
+  href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
 <dom-module id="robrez-project-card">
   <template>
     <style include="shared-styles"></style>
@@ -8,7 +14,6 @@
         border-radius: 2px;
         background-color: #fff;
       }
-
       :host:hover {
         background-color: #efefef;
       }
@@ -28,7 +33,7 @@
       }
 
       .row {
-        padding: 0 16px 16px 16px;
+        padding: 0 16px 16px;
       }
 
       .horizontal {
@@ -40,9 +45,9 @@
         text-decoration: none;
         color: inherit;
       }
+
     </style>
-    <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError">
-    </iron-ajax>
+    <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError"></iron-ajax>
     <a href$="[[detail.url]]">
       <div>
         <div class="header">
@@ -80,11 +85,10 @@
 
         _onProjectChanged: function(project) {
           if (project && project.ghOwner && project.ghRepo) {
-            //TIL that gh api has a rate limit of 60 requests per hour
-            //  to get around this i'll have to setup a proxy-pass
-            //  on one of my servers that adds an o-auth token
-            var url = "https://api.github.com/repos/" + project.ghOwner +
-              "/" + project.ghRepo;
+            // TIL that gh api has a rate limit of 60 requests per hour  to get around this
+            // i'll have to setup a proxy-pass  on one of my servers that adds an o-auth
+            // token
+            var url = "https://api.github.com/repos/" + project.ghOwner + "/" + project.ghRepo;
             console.log(url);
             this.$.ajax.url = url;
             this.$.ajax.generateRequest();
@@ -92,8 +96,7 @@
             var detail = {
               name: project.ghRepo,
               fullName: project.ghOwner + "/" + project.ghRepo,
-              url: "http://github.com/" + project.ghOwner + "/" +
-                project.ghRepo,
+              url: "http://github.com/" + project.ghOwner + "/" + project.ghRepo,
               description: project.description,
               stars: "?",
               subscribers: "?",

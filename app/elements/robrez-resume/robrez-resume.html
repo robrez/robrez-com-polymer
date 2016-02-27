@@ -1,9 +1,14 @@
-<link rel="import" href="../../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../styles/shared-styles.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
 <dom-module id="robrez-resume">
   <template>
 
-    <style include="shared-styles"></style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style is="custom-style" include="shared-styles"></style>
     <style>
       .toolbar-text {
         @apply(--paper-font-display1);
@@ -107,7 +112,7 @@
 
           <div class="layout horizontal">
             <div>
-              <img class="avatar" src="images/rob.png"></img>
+              <img class="avatar" src="/images/rob.png"></img>
             </div>
             <div>
               <div class="toolbar-text">Rob Resendez</div>
