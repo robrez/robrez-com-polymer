@@ -1,6 +1,4 @@
-<link
-  rel="import"
-  href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 
@@ -10,14 +8,7 @@
     <style>
       :host {
         display: block;
-        box-sizing: border-box;
-        border-radius: 2px;
-        background-color: #fff;
       }
-      :host:hover {
-        background-color: #efefef;
-      }
-
       .icon {
         @apply(--layout-horizontal);
         @apply(--layout-center);
@@ -42,8 +33,18 @@
       }
 
       a {
+        display: block;
+        box-sizing: border-box;
+        border-radius: 2px;
+        background-color: #fff;
+        @apply(--shadow-elevation-2dp);
+        @apply(--shadow-transition);
         text-decoration: none;
         color: inherit;
+      }
+
+      a:focus {
+        @apply(--shadow-elevation-6dp);
       }
 
     </style>

@@ -7,6 +7,13 @@
         display: block;
       }
 
+      a {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        font-size: inherit;
+      }
+
       .item {
         @apply(--layout-horizontal);
         @apply(--layout-center);
@@ -19,11 +26,11 @@
     </style>
 
     <div class="section">
-      <iron-selector attr-for-selected="data-module" selected="{{selected}}">
+      <iron-selector attr-for-selected="data-module" selected="[[selected]]">
         <template is="dom-repeat" items="[[modules]]">
-          <div class="item" data-module$="[[item.name]]">
+          <a class="item" data-module$="[[item.name]]" href="#[[item.href]]">
             <div>[[item.description]]</div>
-          </div>
+          </a>
         </template>
       </iron-selector>
     </div>

@@ -3,6 +3,8 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-location/iron-location.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
@@ -32,6 +34,7 @@
 
     #mainPanel {
       position: relative;
+      padding-top: 96px;
     }
 
     .masthead {
@@ -41,15 +44,10 @@
       right: 0;
       background-color: var(--default-primary-color);
       height: 216px;
-      z-index: -1;
     }
 
     .toolbar {
       color: var(--text-primary-color);
-    }
-
-    .subtoolbar {
-      padding: 64px 32px 32px;
     }
 
     .content {
@@ -101,17 +99,16 @@
       color: rgba(0, 0, 0, .54);
     }
 
-    .footer a {
+    .footer .a {
       text-decoration: none;
       color: inherit;
-    }
-
-    .footer .a {
       color: #fff;
       padding: 4px 2px;
       margin: 2px;
       cursor: pointer;
       position: relative;
+      display: block;
+      @apply(--shadow-transition);
     }
 
     .a iron-icon {
@@ -119,13 +116,43 @@
       color: #fff;
     }
 
+    .footer .a:focus {
+      @apply(--shadow-elevation-6dp);
+      background: rgba(0,0,0,.1);
+    }
+
     .footer .disclaimer {
       margin: 32px 0;
       font-style: italic;
     }
 
+    paper-tab  a {
+      padding: 0 12px;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      font-size: inherit;
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
+    }
+
+    button.a {
+      border: none;
+      font-size: inherit;
+      background: none;
+      border-radius: 2px;
+      @apply(--shadow-transition);
+    }
+
+    button.a>span {
+      padding-right: 8px;
+    }
+
   </style>
   <template>
+
+    <iron-location path="{{_path}}" query="{{_query}}" hash="{{_hash}}">
+    </iron-location>
 
     <robrez-blog-api url="/blog-assets/data.json" data="{{blogData}}"></robrez-blog-api>
 
@@ -135,52 +162,42 @@
       disable-drawer-activate$="[[wide]]"
       responsive-width="99999px">
 
-      <div id="drawerPanel" drawer>
+      <app-drawer id="drawerPanel" drawer>
         <app-toolbar>Navigation</app-toolbar>
-
         <robrez-drawer-nav selected="{{_module}}" modules="[[_modules]]"></robrez-drawer-nav>
+      </app-drawer>
 
+      <div class="masthead">
+        <div class="logo-container">
+          <div class="logo-inner">
+            <div class="logo-inner2">
+              <div class="logo">robrez</div>
+              <div class="logo2">.com</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar" id="navbar">
+        <app-toolbar class="layout horizontal justified">
+          <paper-icon-button hidden$="[[wide]]" icon="robrez:menu" drawer-toggle></paper-icon-button>
+          <span class="flex"></span>
+          <paper-tabs hidden$="[[!wide]]" attr-for-selected="data-module" selected="[[_module]]">
+            <template id="tabRepeater" is="dom-repeat" items="[[_modules]]">
+              <paper-tab link data-module$="[[item.name]]">
+                <a href="#[[item.href]]" tabindex="-1">[[_toUpper(item.description)]]</a>
+              </paper-tab>
+            </template>
+          </paper-tabs>
+        </app-toolbar>
       </div>
 
       <div id="mainPanel" main>
 
-        <div class="masthead">
-
-          <div class="logo-container">
-            <div class="logo-inner">
-              <div class="logo-inner2">
-                <div class="logo">robrez</div>
-                <div class="logo2">.com</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="toolbar" id="navbar">
-          <app-toolbar class="layout horizontal justified">
-            <paper-icon-button hidden$="[[wide]]" icon="robrez:menu" drawer-toggle></paper-icon-button>
-            <span class="flex"></span>
-            <paper-tabs
-              on-tap="_onNavTap"
-              hidden$="[[!wide]]"
-              attr-for-selected="data-module"
-              selected="{{_module}}">
-              <template id="tabRepeater" is="dom-repeat" items="[[_modules]]">
-                <paper-tab data-module$="[[item.name]]">[[_toUpper(item.description)]]</paper-tab>
-              </template>
-            </paper-tabs>
-          </app-toolbar>
-        </div>
-
-        <div class="content">
-          <div class="subtoolbar"></div>
-        </div>
-
         <div class="content" on-request-blog="_onRequestBlog">
           <iron-pages attr-for-selected="data-section" selected="[[_section]]">
-            <robrez-blog data-section="blog" id="blogList" data="[[blogData]]"></robrez-blog>
-            <robrez-blog-view data-section="blogview" id="blogView" data="[[blogData]]"></robrez-blog-view>
+            <robrez-blog data-section="blog/list" id="blogList" data="[[blogData]]"></robrez-blog>
+            <robrez-blog-view data-section="blog/view" id="blogView" data="[[blogData]]"></robrez-blog-view>
             <robrez-resume data-section="resume"></robrez-resume>
             <robrez-project-list data-section="projects"></robrez-project-list>
           </iron-pages>
@@ -190,28 +207,24 @@
           <div class="content">
             <div class="">
               <div class="layout vertical end">
-                <div class="layout horizontal center a" on-tap="_scrollToTop">
+                <button class="layout horizontal center a" on-tap="_scrollToTop" tabindex="0">
                   <iron-icon icon="robrez:expand-less"></iron-icon>
                   <span>Back to top</span>
                   <paper-ripple></paper-ripple>
-                </div>
+                </button>
               </div>
             </div>
             <div class="layout horizontal justified wrap">
               <div class="footer-item">
-                <a href="https://www.twitter.com/robrezx">
-                  <div class="layout horizontal center a">
-                    <iron-icon icon="robrez:twitter"></iron-icon>
-                    <span>@robrezx</span>
-                    <paper-ripple></paper-ripple>
-                  </div>
+                <a href="https://www.twitter.com/robrezx" class="layout horizontal center a">
+                  <iron-icon icon="robrez:twitter"></iron-icon>
+                  <span>@robrezx</span>
+                  <paper-ripple></paper-ripple>
                 </a>
-                <a href="https://plus.google.com/u/0/+RobResendez">
-                  <div class="layout horizontal center a">
-                    <iron-icon icon="robrez:gplus"></iron-icon>
-                    <span>+RobResendez</span>
-                    <paper-ripple></paper-ripple>
-                  </div>
+                <a href="https://plus.google.com/u/0/+RobResendez" class="layout horizontal center a">
+                  <iron-icon icon="robrez:gplus"></iron-icon>
+                  <span>+RobResendez</span>
+                  <paper-ripple></paper-ripple>
                 </a>
               </div>
             </div>
@@ -243,13 +256,16 @@
             return [
               {
                 name: "projects",
-                description: "Projects"
+                description: "Projects",
+                href: "projects"
               }, {
                 name: "blog",
-                description: "Blog"
+                description: "Blog",
+                href: "blog/list"
               }, {
                 name: "resume",
-                description: "Resume"
+                description: "Resume",
+                href: "resume"
               }
             ];
           },
@@ -263,6 +279,11 @@
         _module: {
           type: String,
           value: "projects"
+        },
+
+        _hash: {
+          type: String,
+          observer: "_hashChanged"
         },
 
         _moduleTitle: {
@@ -284,70 +305,47 @@
 
       },
 
-      observers: [
-        /** all of these observers are for updating routes make this suck less */
-        '_onModuleChange(_module, _modules)',
-        '_onRouteChanged(route)',
-        '_onSectionChanged(_section)'
-      ],
-
-      _onRouteChanged: function(route) {
-        var section = this._section;
-        if (route.route === 'blogview') {
-          this.$.blogView.blogEntry = {
-            id: route.params.id
-          };
-        }
-        this.set("_section", route.route);
-      },
-
-      _onModuleChange: function(module, modules) {
-        if (module && modules && modules.length) {
-          for (var i = 0; i < modules.length; i++) {
-            if (modules[i].name === module) {
-              this._set_moduleTitle(modules[i].description);
-              break;
+      _hashChanged: function(hash, oldValue) {
+        this._scrollToTop();
+        hash = hash || "";
+        var parts = hash.split("/");
+        var module = this._findModuleByName(parts[0]);
+        module = module || this._modules[0];
+        if (module) {
+          this._moduleTitle = module.description;
+          document.title = module.description;
+          var name = module.name;
+          var section = [name];
+          if(name === "blog") {
+            var blogSection = (parts.length > 1) ? parts[1] : "list";
+            var blogId = (parts.length > 2) ? parts[2] : null;
+            section.push(blogSection);
+            if(blogId) {
+              this.$.blogView.blogEntry = {
+                id: blogId
+              };
             }
           }
-          this.set("_section", module);
-          document.title = this._moduleTitle;
+          this._module = name;
+          this._section = section.join("/");
+          console.log("section", name, this._section);
         }
       },
 
-      _onSectionChanged: function(section) {
-        if (section === 'blogview') {
-          this.set("_module", "blog");
-        } else {
-          this.set("_module", section);
+      _findModuleByName: function(name) {
+        var modules = this._modules;
+        if (modules) {
+          for(var i = 0; i < modules.length; i++) {
+              if (modules[i].name === name) {
+                return modules[i];
+              }
+          }
         }
-        this._updateRoute(section);
-      },
-
-      _updateRoute: function(section, force) {
-        var route = (this.route && this.route.route)
-          ? this.route.route
-          : section;
-        if (section != route || force) {
-          page.show(this._buildRoute(section), null);
-          this._scrollToTop();
-        }
-      },
-
-      _buildRoute: function(section) {
-        var path = "/" + section;
-        if (section === 'blogview') {
-          path += "/" + this.$.blogView.blogEntry.id;
-        }
-        return path;
+        return null;
       },
 
       _onRequestBlog: function(e, detail) {
         this.$.blogView.blogEntry = detail;
-        if (this._section === 'blogview') {
-          this._updateRoute(this._section, true);
-        } else {
-          this.set('_section', 'blogview');
-        }
       },
 
       _isBlog: function(module) {
@@ -366,16 +364,7 @@
         var f = function() {
           document.scrollingElement.scrollTop = 0;
         }.bind(this);
-        this.async(f, 250);
-      },
-
-      _onNavTap: function(e, detail, sender) {
-        var model = this.$.tabRepeater.modelForElement(e.target);
-        if (model && model.item) {
-          if (model.item.name === "blog") {
-            this.set("_section", model.item.name);
-          }
-        }
+        this.async(f, 125);
       }
 
     });

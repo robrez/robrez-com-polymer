@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-styles/shadow.html">
 <link rel="import" href="api/robrez-blog-api.html">
 
 <dom-module id="robrez-blog">
@@ -9,7 +10,6 @@
         display: block;
         position: relative;
       }
-
       .item {
         box-sizing: border-box;
         padding: 16px;
@@ -17,11 +17,23 @@
         border-radius: 2px;
         background-color: #fff;
         @apply(--shadow-elevation-2dp);
+        @apply(--shadow-transition);
         cursor: pointer;
+      }
+
+      a.item {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        font-size: inherit;
       }
 
       .item-container>.item {
         padding: 8px 16px;
+      }
+
+      .item:focus {
+        @apply(--shadow-elevation-6dp);
       }
 
       .item.header {
@@ -64,14 +76,14 @@
           @apply(--layout-wrap);
           padding-bottom: 16px;
         }
-        .item-container {
-          width: 50%;
-        }
         .item.header {
           margin: 16px;
         }
         .item {
           margin: 16px 16px 0 8px;
+        }
+        .item-container {
+          width: 50%;
         }
         .item-container:nth-child(odd)>.item {
           margin: 16px 8px 0 16px;
@@ -86,8 +98,8 @@
 
     <div class="list" on-tap="_onTapItem">
       <template id="repeater" is="dom-repeat" items="[[data.entries]]">
-        <div class="item-container">
-          <div class="item">
+        <div href="#blog/view/[[item.id]]" class="item-container">
+          <a href="#blog/view/[[item.id]]" class="item">
             <div class="layout horizontal">
               <div class="date-container">
                 <div class="title">[[_formatDay(item.timestamp)]]</div>
@@ -102,7 +114,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </template>
     </div>
