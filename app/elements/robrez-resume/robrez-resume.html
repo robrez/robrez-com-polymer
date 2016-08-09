@@ -1,5 +1,5 @@
 <link rel="import" href="../../styles/shared-styles.html">
-<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
@@ -46,6 +46,10 @@
         @apply(--shadow-elevation-2dp);
       }
 
+      .toolbar.card {
+        margin-bottom: 8px;
+      }
+
       .avatar {
         height: 48px;
         width: 48px;
@@ -64,21 +68,59 @@
         padding: 16px 0 0 0;
       }
 
+      .section.legend {
+        border-top: 1px solid #b6b6b6;
+        border-top-color: var(--divider-color);
+      }
+
       .p {
         margin 0;
         padding: 4px 0 0 0;
       }
 
       .slider-container {
-        @apply(--layout-flex);
         @apply(--layout-horizontal);
+        @apply(--layout-center);
+        padding-bottom: 8px;
+        padding-right: 4px;
+        padding-left: 4px;
       }
 
-      paper-slider {
-        @apply(--layout-flex);
-        --paper-slider-knob-color: var(--paper-blue-500);
-        --paper-slider-active-color: var(--paper-blue-500);
+      .badge {
+        display: none;
+        font-weight: bold;
+        font-size: 12px;
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        border-radius: 50%;
+        height: 24px;
+        width: 24px;
+        line-height: 24px;
+        vertical-align: center;
+        background: rgba(0, 0, 0, .05);
+        margin-right: 4px;
+      }
+
+      .badge.score {
+        background: var(--paper-blue-200, dodgerblue);
+      }
+
+      .badge.freq {
+        background: var(--paper-pink-200, dodgerblue);
+      }
+
+      paper-progress {
+        --paper-progress-height: 8px;
+        width: 100%;
         pointer-events: none;
+      }
+
+      paper-progress.score {
+        --paper-progress-active-color: var(--paper-blue-200, dodgerblue);
+      }
+
+      paper-progress.freq {
+        --paper-progress-active-color: var(--paper-pink-200, dodgerblue);
       }
 
       .divider {
@@ -91,13 +133,31 @@
           @apply(--layout-horizontal);
         }
         .left {
-          width: 60%%;
+          width: 70%;
         }
         .left .card {
           margin: 16px 8px 16px 16px;
         }
         .right {
-          width: 40%;
+          width: 30%;
+        }
+        .right .card {
+          margin: 16px 16px 16px 8px;
+        }
+      }
+
+      @media print {
+        .content {
+          @apply(--layout-horizontal);
+        }
+        .left {
+          width: 70%;
+        }
+        .left .card {
+          margin: 16px 8px 16px 16px;
+        }
+        .right {
+          width: 30%;
         }
         .right .card {
           margin: 16px 16px 16px 8px;
@@ -153,13 +213,15 @@
                 <span class="flex"></span>
                 <span class="caption secondary">Jan 2007 - Current</span>
               </div>
-              <div class="body2">Senior Engineer, R&amp;D</div>
+              <div class="body2">Senior Engineer III, R&amp;D</div>
               <div class="body1 p">
-                Design, implement, enhance and maintain core libraries used in our development process.
-                Also responsible for developing several interesting and challenging
-                applications from the ground up. A typical day involves data-access
-                and persistence, services, views and everything in between or on
-                the edges.
+                Design, implement, enhance and maintain utilities, components, and libraries critical
+                to the platform architecture and infrastructure. Lead engineer of
+                several fun and challenging applications needs including: adhoc reporting,
+                rules engine, document rendering services, patient care portal, quality
+                measures and more. Knowledge of concepts specific to the Electronic
+                Healthcare domain; including: C-CDA, QRDA, HL7 Fhir, QDM, Meaningful
+                Use
               </div>
             </div>
           </div>
@@ -227,9 +289,22 @@
               <template is="dom-repeat" items="[[skills]]">
                 <div class="body2">[[item.skill]]</div>
                 <div class="slider-container">
-                  <paper-slider value="[[item.score]]"></paper-slider>
+                  <paper-progress class="score" value="[[item.score]]"></paper-progress>
+                </div>
+                <div class="slider-container">
+                  <paper-progress class="freq" value="[[item.freq]]"></paper-progress>
                 </div>
               </template>
+            </div>
+            <div class="section legend">
+              <div class="slider-container">
+                <div class="badge score">P</div>
+                <div class="caption">proficiency</div>
+              </div>
+              <div class="slider-container">
+                <div class="badge freq">F</div>
+                <div class="caption">frequency</div>
+              </div>
             </div>
           </div>
 
@@ -251,40 +326,47 @@
         skills: {
           type: Array,
           value: function() {
-            return [{
-              "skill": "Linux",
-              "score": 90
-            }, {
+            var a = [{
               "skill": "Android",
-              "score": 75
+              "score": 70,
+              "freq": 25
+            }, {
+              "skill": "A11y, Aria, WCAG",
+              "score": 80,
+              "freq": 90
             }, {
               "skill": "Java",
-              "score": 95
+              "score": 95,
+              "freq": 100
             }, {
               "skill": "JavaScript",
-              "score": 85
+              "score": 85,
+              "freq": 90
             }, {
-              "skill": "HTML, CSS",
-              "score": 85
-            }, {
-              "skill": "Data",
-              "score": 98
+              "skill": "CSS",
+              "score": 85,
+              "freq": 90
             }, {
               "skill": "SQL",
-              "score": 95
+              "score": 95,
+              "freq": 100
             }, {
-              "skill": "XSL(T)",
-              "score": 88
-            }, {
-              "skill": "XSL-FO",
-              "score": 90
+              "skill": "XSL(T), XSL-FO",
+              "score": 90,
+              "freq": 60
             }, {
               "skill": "Git",
-              "score": 65
+              "score": 75,
+              "freq": 80
             }, {
               "skill": "Subversion",
-              "score": 85
+              "score": 75,
+              "freq": 85
             }];
+            var sf = function(o1, o2) {
+              return o1.skill.toLowerCase() > o2.skill.toLowerCase();
+            };
+            return a.sort(sf);
           }
         }
       }

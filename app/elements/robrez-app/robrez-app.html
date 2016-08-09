@@ -118,7 +118,7 @@
 
     .footer .a:focus {
       @apply(--shadow-elevation-6dp);
-      background: rgba(0,0,0,.1);
+      background: rgba(0, 0, 0, .1);
     }
 
     .footer .disclaimer {
@@ -126,7 +126,7 @@
       font-style: italic;
     }
 
-    paper-tab  a {
+    paper-tab a {
       padding: 0 12px;
       display: block;
       text-decoration: none;
@@ -148,6 +148,30 @@
       padding-right: 8px;
     }
 
+    @media print {
+      .masthead {
+        height: 96px;
+      }
+      #navbar {
+        display: none;
+      }
+      .logo-container {
+        display: none;
+      }
+      #mainPanel {
+        padding-top: 16px;
+      }
+      .content {
+        max-width: 760px;
+      }
+      .footer {
+        min-height: 96px;
+        margin: 16px 0;
+      }
+      .footer>.content {
+        display: none;
+      }
+    }
   </style>
   <template>
 
@@ -158,9 +182,7 @@
 
     <iron-media-query query="(min-width: 720px)" query-matches="{{wide}}"></iron-media-query>
 
-    <app-drawer-layout
-      disable-drawer-activate$="[[wide]]"
-      responsive-width="99999px">
+    <app-drawer-layout disable-drawer-activate$="[[wide]]" responsive-width="99999px">
 
       <app-drawer id="drawerPanel" drawer>
         <app-toolbar>Navigation</app-toolbar>
@@ -230,11 +252,9 @@
             </div>
             <div class="layout vertical center disclaimer">
               <div class="layout horizontal center wrap">
-                <span>Made with
-                </span>
+                <span>Made with</span>
                 <iron-icon icon="robrez:favorite" class="accent"></iron-icon>
-                <span>
-                  by Rob</span>
+                <span>by Rob</span>
               </div>
               <div>Unless otherwise noted, this page is licensed under the The MIT License</div>
             </div>
@@ -253,21 +273,19 @@
         _modules: {
           type: Array,
           value: function() {
-            return [
-              {
-                name: "projects",
-                description: "Projects",
-                href: "projects"
-              }, {
-                name: "blog",
-                description: "Blog",
-                href: "blog/list"
-              }, {
-                name: "resume",
-                description: "Resume",
-                href: "resume"
-              }
-            ];
+            return [{
+              name: "projects",
+              description: "Projects",
+              href: "projects"
+            }, {
+              name: "blog",
+              description: "Blog",
+              href: "blog/list"
+            }, {
+              name: "resume",
+              description: "Resume",
+              href: "resume"
+            }];
           },
           notify: true
         },
@@ -299,7 +317,9 @@
         route: {
           type: Object,
           value: function() {
-            return {route: "projects"};
+            return {
+              route: "projects"
+            };
           }
         }
 
@@ -316,11 +336,11 @@
           document.title = module.description;
           var name = module.name;
           var section = [name];
-          if(name === "blog") {
+          if (name === "blog") {
             var blogSection = (parts.length > 1) ? parts[1] : "list";
             var blogId = (parts.length > 2) ? parts[2] : null;
             section.push(blogSection);
-            if(blogId) {
+            if (blogId) {
               this.$.blogView.blogEntry = {
                 id: blogId
               };
@@ -335,10 +355,10 @@
       _findModuleByName: function(name) {
         var modules = this._modules;
         if (modules) {
-          for(var i = 0; i < modules.length; i++) {
-              if (modules[i].name === name) {
-                return modules[i];
-              }
+          for (var i = 0; i < modules.length; i++) {
+            if (modules[i].name === name) {
+              return modules[i];
+            }
           }
         }
         return null;
