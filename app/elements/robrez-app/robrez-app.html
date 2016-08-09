@@ -121,8 +121,11 @@
       background: rgba(0, 0, 0, .1);
     }
 
-    .footer .disclaimer {
-      margin: 32px 0;
+    .footer .spacer {
+      height: 32px;
+    }
+
+    .license {
       font-style: italic;
     }
 
@@ -168,8 +171,12 @@
         min-height: 96px;
         margin: 16px 0;
       }
-      .footer>.content {
+      .footer>.content:not(.printable) {
         display: none;
+      }
+
+      .footer .spacer {
+        height: 16px;
       }
     }
   </style>
@@ -250,14 +257,19 @@
                 </a>
               </div>
             </div>
-            <div class="layout vertical center disclaimer">
-              <div class="layout horizontal center wrap">
+          </div>
+          <div class="content printable">
+            <div class="spacer"></div>
+            <div class="layout vertical center">
+              <div class="layout horizontal center wrap license">
                 <span>Made with</span>
                 <iron-icon icon="robrez:favorite" class="accent"></iron-icon>
                 <span>by Rob</span>
               </div>
-              <div>Unless otherwise noted, this page is licensed under the The MIT License</div>
             </div>
+          </div>
+          <div class="content license layout vertical center">
+            <div>Unless otherwise noted, this page is licensed under the The MIT License</div>
           </div>
         </div>
 

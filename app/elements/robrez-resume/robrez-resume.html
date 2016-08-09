@@ -10,6 +10,10 @@
     <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
     <style is="custom-style" include="shared-styles"></style>
     <style>
+      :host {
+        display: block;
+      }
+
       .toolbar-text {
         @apply(--paper-font-display1);
       }
@@ -128,6 +132,15 @@
         background-color: var(--divider-color);
       }
 
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      a:hover {
+        color: var(--dark-primary-color);
+      }
+
       @media (min-width: 960px) {
         .content {
           @apply(--layout-horizontal);
@@ -162,156 +175,158 @@
         .right .card {
           margin: 16px 16px 16px 8px;
         }
+        .page-break {
+          display: block;
+          page-break-before: always;
+        }
       }
     </style>
 
-    <div>
 
-      <div class="toolbar card">
-        <div class="layout horizontal justified wrap">
+    <div class="toolbar card">
+      <div class="layout horizontal justified wrap">
 
-          <div class="layout horizontal">
-            <div>
-              <img class="avatar" src="/images/rob.png"></img>
-            </div>
-            <div>
-              <div class="toolbar-text">Rob Resendez</div>
-              <div class="body2 secondary">Software Engineer</div>
-            </div>
-          </div>
-
+        <div class="layout horizontal">
           <div>
-            <div class="layout horizontal center">
-              <iron-icon icon="robrez:mail"></iron-icon>
-              <span class="label">resendez.java@gmail.com</span>
+            <img class="avatar" src="/images/rob.png"></img>
+          </div>
+          <div>
+            <div class="toolbar-text">Rob Resendez</div>
+            <div class="body2 secondary">Software Engineer</div>
+            <div class="body2">
+              <a href="http://wwww.robrez.com"><span class="secondary">robrez.com</span></a>
             </div>
-            <div class="layout horizontal center">
-              <iron-icon icon="robrez:perm-phone-msg"></iron-icon>
-              <span class="label">xxx-xxx-xxxx</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="layout horizontal center">
+            <iron-icon icon="robrez:mail"></iron-icon>
+            <span class="label">resendez.java@gmail.com</span>
+          </div>
+          <div class="layout horizontal center">
+            <iron-icon icon="robrez:perm-phone-msg"></iron-icon>
+            <span class="label">xxx-xxx-xxxx</span>
+          </div>
+          <div class="layout horizontal center">
+            <iron-icon icon="robrez:github"></iron-icon>
+            <a href="https://github.com/robrez"><span class="label">github.com/robrez</span></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="col left">
+
+        <div class="card">
+          <div class="layout horizontal card-title">
+            <iron-icon icon="robrez:account-balance"></iron-icon>
+            <div class="title label">Work Experience</div>
+          </div>
+          <div class="section">
+            <div class="layout horizontal flex center">
+              <div class="subhead">Evident</div>
+              <span class="flex"></span>
+              <span class="caption secondary">Jan 2007 - Current</span>
             </div>
-            <div class="layout horizontal center">
-              <iron-icon icon="robrez:github"></iron-icon>
-              <a href="https://github.com/robrez"><span class="label">github.com/robrez</span></a>
+            <div class="body2">Senior Engineer III, R&amp;D</div>
+            <div class="body1 p">
+              Design, implement, enhance and maintain platform-critical utilities, components,
+              and libraries. Lead engineer of several fun and challenging applications
+              including: adhoc reporting, rules engine, document rendering services,
+              patient care portal, quality measures and more. Knowledgeble in many
+              key concepts within the Electronic Health Record domain
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="layout horizontal card-title">
+            <iron-icon icon="robrez:school"></iron-icon>
+            <div class="title label">Education and Conferences</div>
+          </div>
+          <div class="section">
+            <div class="layout horizontal flex center">
+              <div class="subhead">O'Reilly OSCON</div>
+              <span class="flex"></span>
+              <span class="caption secondary">2013, 2014, 2015</span>
+            </div>
+            <div class="body2">Portland, OR</div>
+            <div class="body1 p">
+              A fun and educational conference covering a wide array of wonderful topics
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section">
+            <div class="layout horizontal flex center">
+              <div class="subhead">AnDevCon</div>
+              <span class="flex"></span>
+              <span class="caption secondary">2012</span>
+            </div>
+            <div class="body2">San Fransisco, CA</div>
+            <div class="body1 p">
+              Technical conference for enthusiasts, developers and engineers who utilize the Android
+              platform
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section">
+            <div class="layout horizontal flex center">
+              <div class="subhead">University of West Florida</div>
+              <span class="flex"></span>
+              <span class="caption secondary">December 2006</span>
+            </div>
+            <div class="body2">Computer Science, B.S.</div>
+            <div class="body1 p">
+              Curriculum emphasizing a strong theoretical foundation of algorithms, data structures,
+              software engineering, computer architecture, networks, discrete math,
+              and the concepts of various programming languages
             </div>
           </div>
 
         </div>
       </div>
 
-      <div class="content">
 
-        <div class="col left">
+      <div class="col right">
 
-          <div class="card">
-            <div class="layout horizontal card-title">
-              <iron-icon icon="robrez:account-balance"></iron-icon>
-              <div class="title label">Work Experience</div>
-            </div>
-            <div class="section">
-              <div class="layout horizontal flex center">
-                <div class="subhead">Evident</div>
-                <span class="flex"></span>
-                <span class="caption secondary">Jan 2007 - Current</span>
-              </div>
-              <div class="body2">Senior Engineer III, R&amp;D</div>
-              <div class="body1 p">
-                Design, implement, enhance and maintain utilities, components, and libraries critical
-                to the platform architecture and infrastructure. Lead engineer of
-                several fun and challenging applications needs including: adhoc reporting,
-                rules engine, document rendering services, patient care portal, quality
-                measures and more. Knowledge of concepts specific to the Electronic
-                Healthcare domain; including: C-CDA, QRDA, HL7 Fhir, QDM, Meaningful
-                Use
-              </div>
-            </div>
+        <div class="card">
+          <div class="layout horizontal card-title">
+            <iron-icon icon="robrez:assessment"></iron-icon>
+            <div class="title label">Skills</div>
           </div>
-
-          <div class="card">
-            <div class="layout horizontal card-title">
-              <iron-icon icon="robrez:school"></iron-icon>
-              <div class="title label">Education and Conferences</div>
-            </div>
-            <div class="section">
-              <div class="layout horizontal flex center">
-                <div class="subhead">O'Reilly OSCON</div>
-                <span class="flex"></span>
-                <span class="caption secondary">2013, 2014, 2015</span>
-              </div>
-              <div class="body2">Portland, OR</div>
-              <div class="body1 p">
-                A fun and educational conference covering a wide array of wonderful topics
-              </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="section">
-              <div class="layout horizontal flex center">
-                <div class="subhead">AnDevCon</div>
-                <span class="flex"></span>
-                <span class="caption secondary">2012</span>
-              </div>
-              <div class="body2">San Fransisco, CA</div>
-              <div class="body1 p">
-                Technical conference for enthusiasts, developers and engineers who utilize the Android
-                platform
-              </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="section">
-              <div class="layout horizontal flex center">
-                <div class="subhead">University of West Florida</div>
-                <span class="flex"></span>
-                <span class="caption secondary">December 2006</span>
-              </div>
-              <div class="body2">Computer Science, B.S.</div>
-              <div class="body1 p">
-                This curriculum emphasizes a strong theoretical foundation of algorithms, data structures,
-                software engineering, computer architecture, networks, discrete math,
-                and the concepts of various programming languages.
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-
-        <div class="col right">
-
-          <div class="card">
-            <div class="layout horizontal card-title">
-              <iron-icon icon="robrez:assessment"></iron-icon>
-              <div class="title label">Skills</div>
-            </div>
-            <div class="section">
-              <template is="dom-repeat" items="[[skills]]">
-                <div class="body2">[[item.skill]]</div>
-                <div class="slider-container">
-                  <paper-progress class="score" value="[[item.score]]"></paper-progress>
-                </div>
-                <div class="slider-container">
-                  <paper-progress class="freq" value="[[item.freq]]"></paper-progress>
-                </div>
-              </template>
-            </div>
-            <div class="section legend">
+          <div class="section">
+            <template is="dom-repeat" items="[[skills]]">
+              <div class="body2">[[item.skill]]</div>
               <div class="slider-container">
-                <div class="badge score">P</div>
-                <div class="caption">proficiency</div>
+                <paper-progress class="score" value="[[item.score]]"></paper-progress>
               </div>
               <div class="slider-container">
-                <div class="badge freq">F</div>
-                <div class="caption">frequency</div>
+                <paper-progress class="freq" value="[[item.freq]]"></paper-progress>
               </div>
+            </template>
+          </div>
+          <div class="section legend">
+            <div class="slider-container">
+              <div class="badge score">P</div>
+              <div class="caption">proficiency</div>
+            </div>
+            <div class="slider-container">
+              <div class="badge freq">F</div>
+              <div class="caption">frequency</div>
             </div>
           </div>
-
         </div>
-
 
       </div>
+
 
     </div>
 
