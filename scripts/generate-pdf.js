@@ -2,6 +2,18 @@ const devServer = require('@web/dev-server');
 const puppeteer = require('puppeteer');
 const startDevServer = devServer.startDevServer;
 
+// TODO switch to usig a config file to make dry
+const spaRouterMiddleware = (context, next) => {
+  const spaRoutes = ['blog', 'resume', 'projects'];
+  const isSpa = spaRoutes.find(route => context.url.indexOf(`/${route}`) === 0);
+  if (isSpa) {
+    // force spa routes
+    context.url = '/';
+  }
+
+  return next();
+};
+
 /**
  * Goal - static generate PDF resume at build time
  */
@@ -15,6 +27,7 @@ const devServerConfig = {
   nodeResolve: true,
   wach: false,
   plugins: [],
+  middleware: [spaRouterMiddleware],
 };
 
 async function main() {
@@ -28,7 +41,7 @@ async function main() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 2 });
-    const url = 'http://localhost:8011';
+    const url = 'http://localhost:8011/resume';
     await page.goto(url, {
       waitUntil: 'networkidle2',
     });
