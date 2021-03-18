@@ -6,6 +6,7 @@ import {
   TemplateResult,
   property,
 } from 'lit-element';
+import { Template } from 'lit-html';
 import { installRouter } from 'pwa-helpers/router';
 import styles from './styles';
 
@@ -105,12 +106,18 @@ export class RobrezApp extends LitElement {
     }
   }
 
-  private renderHome(): TemplateResult {
-    return html` <div class="subhead card">
+  private renderGenericHeading(value: string): TemplateResult {
+    return html`
+      <div class="subhead card">
         <div class="card-heading">
-          <h2>Hello World</h2>
+          <h2>${value}</h2>
         </div>
       </div>
+    `;
+  }
+
+  private renderHome(): TemplateResult {
+    return html` ${this.renderGenericHeading('Hello')}
 
       <div class="card">
         <div class="card-heading divider"><h3>Lorem Ipsum</h3></div>
@@ -127,20 +134,16 @@ export class RobrezApp extends LitElement {
   }
 
   private renderBlog(): TemplateResult {
-    return html`blog`;
+    return html`${this.renderGenericHeading('Blog')}`;
   }
 
   private renderProjects(): TemplateResult {
-    return html`projects`;
+    return html`${this.renderGenericHeading('Projects')}`;
   }
 
   private renderResume(): TemplateResult {
     return html`
-      <div class="subhead card">
-        <div class="card-heading">
-          <h2>Resume</h2>
-        </div>
-      </div>
+      ${this.renderGenericHeading('Resume')}
 
       <div class="card">
         <div class="card-heading divider"><h3>Lorem Ipsum</h3></div>
