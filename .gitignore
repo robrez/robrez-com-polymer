@@ -20,5 +20,6 @@
 /previews/
 /dist/
 /out-tsc/
+/out-blog/
 
 storybook-static

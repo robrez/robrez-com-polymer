@@ -6,7 +6,6 @@ import {
   TemplateResult,
   property,
 } from 'lit-element';
-import { Template } from 'lit-html';
 import { installRouter } from 'pwa-helpers/router';
 import styles from './styles';
 
@@ -134,7 +133,11 @@ export class RobrezApp extends LitElement {
   }
 
   private renderBlog(): TemplateResult {
-    return html`${this.renderGenericHeading('Blog')}`;
+    return html` ${this.renderGenericHeading('Blog')}
+
+      <div class="card">
+        <robrez-blog class="card-body"></robrez-blog>
+      </div>`;
   }
 
   private renderProjects(): TemplateResult {
